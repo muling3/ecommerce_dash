@@ -1,16 +1,22 @@
-<div class="w-screen h-screen flex justify-content-center align-items-center">
-  <div class="card flex justify-content-center">
-    <p-card
-      header="Ecommerce Dashboard"
-      subheader="Built on Angular and React Js"
-      [style]="{ width: '360px' }"
-    >
-      <p>
-        On Construction
-      </p>
-      <ng-template pTemplate="footer">
-        <p-button label="Loading Implementation" icon="pi pi-spin pi-spinner"></p-button>
-      </ng-template>
-    </p-card>
+<div class="w-full h-screen flex flex-row justify-content-start align-items-center gap-3">
+  <div>
+    <app-sidebar></app-sidebar>
+  </div>
+  <div class="h-screen ">
+    <div class="card flex justify-content-center">
+      <p-card
+        header="Ecommerce Dashboard"
+        subheader="Built on Angular and React Js"
+        [style]="{ width: '360px' }"
+      >
+        <p>On Construction</p>
+        <ng-template pTemplate="footer">
+          <p-button
+            label="Loading Implementation"
+            icon="pi pi-spin pi-spinner"
+          ></p-button>
+        </ng-template>
+      </p-card>
+    </div>
   </div>
 </div>
