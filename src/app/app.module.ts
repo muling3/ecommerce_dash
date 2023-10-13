@@ -8,8 +8,9 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { PrimengModule } from './primeng.module';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { AddProductComponent } from './components/add-product/add-product.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,8 @@ import { MessageService } from 'primeng/api';
     AppRoutingModule,
     PrimengModule,
     FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
   ],
   providers: [MessageService],
   bootstrap: [AppComponent],

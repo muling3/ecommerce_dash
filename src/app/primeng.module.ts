@@ -9,6 +9,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { ToastModule } from 'primeng/toast';
 import { ChipsModule } from 'primeng/chips';
 import { DropdownModule } from 'primeng/dropdown';
+import { ImageModule } from 'primeng/image';
 
 @NgModule({
   declarations: [],
@@ -24,6 +25,7 @@ import { DropdownModule } from 'primeng/dropdown';
     ToastModule,
     ChipsModule,
     DropdownModule,
+    ImageModule,
   ],
 })
 export class PrimengModule {}

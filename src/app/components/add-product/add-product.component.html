@@ -1,154 +1,232 @@
 <div
   class="w-full h-full flex flex-col flex-wrap justify-content-center align-items-center"
 >
+  <p-toast></p-toast>
   <span class="text-3xl text-blue-500 font-bold">Add Product</span>
-  <div class="w-full flex justify-content-center align-items-center">
-    <span class="flex flex-column gap-2 p-input-icon-right col-5">
-      <label htmlFor="product-name">Product name</label>
-      <input pInputText id="product-name" name="product-name" ngModel />
-    </span>
-    <span class="flex flex-column gap-2 col-5">
-      <label htmlFor="brand">Brand</label>
-      <input pInputText id="brand" name="brand" ngModel />
-    </span>
-  </div>
-
-  <div class="w-full flex justify-content-center align-items-center">
-    <span class="flex flex-column gap-2 col-5">
-      <label htmlFor="price">Price</label>
-      <p-inputNumber
-        ngModel
-        mode="decimal"
-        [showButtons]="true"
-        inputId="minmax-buttons"
-        [min]="0"
-        [max]="100"
-        styleClass="w-full"
-      >
-      </p-inputNumber>
-    </span>
-    <span class="flex flex-column gap-2 col-5">
-      <label htmlFor="quantity">Quantity</label>
-      <p-inputNumber
-        ngModel
-        mode="decimal"
-        [showButtons]="true"
-        inputId="minmax-buttons"
-        [min]="0"
-        [max]="100"
-        styleClass="w-full"
-      >
-      </p-inputNumber>
-    </span>
-  </div>
-
-  <div class="w-full flex justify-content-center align-items-center">
-    <span class="flex flex-column gap-2 col-5">
-      <label htmlFor="manufacturer">Manufacturer</label>
-      <input pInputText id="manufacturer" name="manufacturer" ngModel />
-    </span>
-    <span class="flex flex-column gap-2 col-5">
-      <label htmlFor="manufacturer-date">Manufactured Date</label>
-      <p-calendar
-        name="manufacturer-date"
-        ngModel
-        [showButtonBar]="true"
-        [showIcon]="true"
-        styleClass="w-full"
-      ></p-calendar>
-    </span>
-  </div>
-  <div class="w-full flex justify-content-center align-items-center">
-    <span class="flex flex-column gap-2 col-5">
-      <label htmlFor="serial-no">Serial Number</label>
-      <input pInputText id="serial-no" name="serial-no" ngModel />
-    </span>
-    <span class="flex flex-column gap-2 col-5">
-      <label htmlFor="batch-no">Batch Number</label>
-      <input pInputText id="batch-no" name="batch-no" ngModel />
-    </span>
-  </div>
-
-  <div class="w-full flex justify-content-center align-items-start">
-    <span class="flex flex-column gap-2 col-5">
-      <label htmlFor="category">Category</label>
-      <p-dropdown
-        [options]="categories"
-        [(ngModel)]="selectedCategory"
-        optionLabel="name"
-        [filter]="true"
-        filterBy="name"
-        [showClear]="true"
-        placeholder="Select category"
-        styleClass="w-full"
-      >
-        <ng-template pTemplate="selectedItem">
-          <div class="flex align-items-center gap-2" *ngIf="selectedCategory">
-            <div>{{ selectedCategory.name }}</div>
-          </div>
-        </ng-template>
-        <ng-template let-cat pTemplate="item">
-          <div class="flex align-items-center gap-2">
-            <div>{{ cat.name }}</div>
-          </div>
-        </ng-template>
-      </p-dropdown>
-    </span>
-    <span class="flex flex-column gap-2 col-5">
-      <label htmlFor="available-colors">Available Colors</label>
-      <div class="card p-fluid">
-        <p-chips
-          ngModel="values"
-          separator=","
-          placeholder="Hint: a, b, c"
-        ></p-chips>
-      </div>
-    </span>
-  </div>
-
-  <div class="w-full flex justify-content-center align-items-center">
-    <span class="flex flex-column gap-2 col-10">
-      <label htmlFor="desc">Description</label>
-      <textarea rows="5" cols="30" pInputTextarea ngModel></textarea>
-    </span>
-  </div>
-  <div class="col-10 flex flex-column justify-content-start align-items-start">
-    <span class="font-bold text-2xl">Product Images</span>
-    <div
-      class="col-12 flex flex-wrap justify-content-between align-items-start"
-    >
-      <span class="flex flex-column gap-2 col-4">
-        <p-toast></p-toast>
-        <label htmlFor="main-image">Main image</label>
-        <p-fileUpload
-          mode="basic"
-          chooseLabel="Choose"
-          name="demo[]"
-          url="https://www.primefaces.org/cdn/api/upload.php"
-          accept="image/*"
-          (onUpload)="onBasicUploadAuto($event)"
-        ></p-fileUpload>
-      </span>
-
-      <div class="card flex flex-column justify-content-center col-8">
-        <label htmlFor="other-image">Other Produt Images</label>
-        <p-toast></p-toast>
-        <p-fileUpload
-          name="demo[]"
-          url="https://www.primefaces.org/cdn/api/upload.php"
-          (onUpload)="onMultipleUpload($event)"
-          [multiple]="true"
-          accept="image/*"
+  <form
+    [formGroup]="productForm"
+    (ngSubmit)="productFormSubmit()"
+    class="w-full h-full flex flex-col flex-wrap justify-content-center align-items-center"
+  >
+    <div class="w-full flex justify-content-center align-items-center">
+      <span class="flex flex-column gap-2 p-input-icon-right col-5">
+        <label htmlFor="name">Product name</label>
+        <input pInputText id="name" formControlName="name" />
+        <small
+          class="text-red-500"
+          *ngIf="(productFormControls.get('name')?.invalid && productFormControls.get('name')?.touched) && productFormControls.get('name')?.errors?.['required']"
         >
-          <ng-template pTemplate="content">
-            <ul *ngIf="uploadedFiles.length">
-              <li *ngFor="let file of uploadedFiles">
-                {{ file.name }} - {{ file.size }} bytes
-              </li>
-            </ul>
-          </ng-template>
-        </p-fileUpload>
+          Product Name is required
+        </small>
+      </span>
+      <span class="flex flex-column gap-2 col-5">
+        <label htmlFor="brand">Brand</label>
+        <input pInputText id="brand" formControlName="brand" />
+        <small
+          class="text-red-500"
+          *ngIf="(productFormControls.get('brand')?.invalid && productFormControls.get('brand')?.touched) && productFormControls.get('brand')?.errors?.['required']"
+        >
+          Product Brand is required
+        </small>
+      </span>
+    </div>
+
+    <div class="w-full flex justify-content-center align-items-center">
+      <span class="flex flex-column gap-2 col-5">
+        <label htmlFor="price">Price</label>
+        <p-inputNumber
+          formControlName="price"
+          mode="decimal"
+          [showButtons]="true"
+          inputId="minmax-buttons"
+          [min]="0"
+          [max]="100"
+          styleClass="w-full"
+        >
+        </p-inputNumber>
+        <small
+          class="text-red-500"
+          *ngIf="(productFormControls.get('price')?.invalid && productFormControls.get('price')?.touched) && productFormControls.get('price')?.errors?.['required']"
+        >
+          Product Price is required
+        </small>
+      </span>
+      <span class="flex flex-column gap-2 col-5">
+        <label htmlFor="quantity">Quantity</label>
+        <p-inputNumber
+          formControlName="quantity"
+          mode="decimal"
+          [showButtons]="true"
+          inputId="minmax-buttons"
+          [min]="0"
+          [max]="100"
+          styleClass="w-full"
+        >
+        </p-inputNumber>
+        <small
+          class="text-red-500"
+          *ngIf="(productFormControls.get('quantity')?.invalid && productFormControls.get('quantity')?.touched) && productFormControls.get('quantity')?.errors?.['required']"
+        >
+          Product Quantity is required
+        </small>
+      </span>
+    </div>
+
+    <div class="w-full flex justify-content-center align-items-center">
+      <span class="flex flex-column gap-2 col-5">
+        <label htmlFor="manufacturer">Manufacturer</label>
+        <input pInputText id="manufacturer" formControlName="manufacturer" />
+        <small
+          class="text-red-500"
+          *ngIf="(productFormControls.get('manufacturer')?.invalid && productFormControls.get('manufacturer')?.touched) && productFormControls.get('manufacturer')?.errors?.['required']"
+        >
+          Product Manufacturer is required
+        </small>
+      </span>
+      <span class="flex flex-column gap-2 col-5">
+        <label htmlFor="manufacturerDate">Manufactured Date</label>
+        <p-calendar
+          formControlName="manufacturerDate"
+          [showButtonBar]="true"
+          [showIcon]="true"
+          styleClass="w-full"
+        ></p-calendar>
+        <small
+          class="text-red-500"
+          *ngIf="(productFormControls.get('manufacturedDate')?.invalid && productFormControls.get('manufacturedDate')?.touched) && productFormControls.get('manufacturedDate')?.errors?.['required']"
+        >
+          Product Manufactured date is required
+        </small>
+      </span>
+    </div>
+
+    <div class="w-full flex justify-content-center align-items-center">
+      <span class="flex flex-column gap-2 col-5">
+        <label htmlFor="serial">Serial Number</label>
+        <input pInputText id="serial" formControlName="serial" />
+        <small
+          class="text-red-500"
+          *ngIf="(productFormControls.get('serial')?.invalid && productFormControls.get('serial')?.touched) && productFormControls.get('serial')?.errors?.['required']"
+        >
+          Product Serial Number is required
+        </small>
+      </span>
+      <span class="flex flex-column gap-2 col-5">
+        <label htmlFor="batch">Batch Number</label>
+        <input pInputText id="batch" formControlName="batch" />
+        <small
+          class="text-red-500"
+          *ngIf="(productFormControls.get('batch')?.invalid && productFormControls.get('batch')?.touched) && productFormControls.get('batch')?.errors?.['required']"
+        >
+          Product Batch Number is required
+        </small>
+      </span>
+    </div>
+
+    <div class="w-full flex justify-content-center align-items-start">
+      <span class="flex flex-column gap-2 col-5">
+        <label htmlFor="category">Category</label>
+        <p-dropdown
+          [options]="categories"
+          formControlName="category"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          [showClear]="true"
+          placeholder="Select category"
+          styleClass="w-full"
+        >
+        </p-dropdown>
+        <small
+          class="text-red-500"
+          *ngIf="(productFormControls.get('category')?.invalid && productFormControls.get('category')?.touched) && productFormControls.get('category')?.errors?.['required']"
+        >
+          Choose the product category
+        </small>
+      </span>
+      <span class="flex flex-column gap-2 col-5">
+        <label htmlFor="available-colors">Available Colors</label>
+        <div class="card p-fluid">
+          <p-chips
+            formControlName="availableColors"
+            separator=","
+            placeholder="Hint: green, black, yellow"
+          ></p-chips>
+        </div>
+        <small
+          class="text-red-500"
+          *ngIf="(productFormControls.get('availableColors')?.invalid && productFormControls.get('availableColors')?.touched) && productFormControls.get('availableColors')?.errors?.['required']"
+        >
+          Provide available colors for the product
+        </small>
+      </span>
+    </div>
+
+    <div class="w-full flex justify-content-center align-items-center">
+      <span class="flex flex-column gap-2 col-10">
+        <label htmlFor="desc">Description</label>
+        <textarea
+          rows="5"
+          cols="30"
+          formControlName="desc"
+          pInputTextarea
+        ></textarea>
+        <small
+          class="text-red-500"
+          *ngIf="(productFormControls.get('desc')?.invalid && productFormControls.get('desc')?.touched) && productFormControls.get('desc')?.errors?.['required']"
+        >
+          Product Description is required
+        </small>
+      </span>
+    </div>
+
+    <div
+      class="col-10 flex flex-column justify-content-start align-items-start"
+    >
+      <span class="font-bold text-2xl">Product Images</span>
+      <div
+        class="col-12 flex flex-wrap justify-content-between align-items-start"
+      >
+        <span class="flex flex-column gap-2 col-4">
+          <label htmlFor="main-image">Main image</label>
+          <p-fileUpload
+            mode="basic"
+            name="file"
+            chooseLabel="Choose"
+            accept="image/*"
+            (onSelect)="onImageSelect($event)"
+          ></p-fileUpload>
+        </span>
+
+        <div class="card flex flex-column justify-content-center col-8">
+          <label htmlFor="other-image">Other Produt Images</label>
+          <p-fileUpload
+            name="otherImages"
+            url="http://localhost:8080/uploads"
+            (onUpload)="onMultipleUpload($event)"
+            [multiple]="true"
+            accept="image/*"
+          >
+            <ng-template pTemplate="content">
+              <ul *ngIf="uploadedFiles.length">
+                <li *ngFor="let file of uploadedFiles">
+                  {{ file.name }} - {{ file.size }} bytes
+                </li>
+              </ul>
+            </ng-template>
+          </p-fileUpload>
+        </div>
       </div>
     </div>
-  </div>
+
+    <div class="col-5 card flex justify-content-center">
+      <p-button
+        label="Submit"
+        icon="pi pi-check"
+        iconPos="right"
+        [disabled]="productForm.valid"
+        (onClick)="productFormSubmit()"
+      ></p-button>
+    </div>
+  </form>
 </div>
