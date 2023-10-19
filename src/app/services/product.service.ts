@@ -13,13 +13,10 @@ export class ProductService {
     return this.http.post(this.URL + 'products/new', product);
   }
 
-  addProductImage(name: string, formData: any): Observable<any> {
-    const headers = new HttpHeaders();
-    headers.append('Content-Type', 'multipart/form-data');
+  addProductImage(data: any): Observable<any> {
     return this.http.post(
-      this.URL + 'products/addImage?name=' + name,
-      formData,
-      { headers: { 'Content-Type': 'multipart/form-data' } }
+      this.URL + 'products/addImage',
+      data
     );
   }
 }

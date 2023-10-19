@@ -39,8 +39,8 @@
           mode="decimal"
           [showButtons]="true"
           inputId="minmax-buttons"
-          [min]="0"
-          [max]="100"
+          [min]="1"
+          [max]="1000"
           styleClass="w-full"
         >
         </p-inputNumber>
@@ -58,7 +58,7 @@
           mode="decimal"
           [showButtons]="true"
           inputId="minmax-buttons"
-          [min]="0"
+          [min]="1"
           [max]="100"
           styleClass="w-full"
         >
@@ -84,12 +84,14 @@
         </small>
       </span>
       <span class="flex flex-column gap-2 col-5">
-        <label htmlFor="manufacturerDate">Manufactured Date</label>
+        <label htmlFor="manufacturedDate">Manufactured Date</label>
         <p-calendar
-          formControlName="manufacturerDate"
+          formControlName="manufacturedDate"
           [showButtonBar]="true"
           [showIcon]="true"
+          dateFormat="dd/mm/yy"
           styleClass="w-full"
+          [showClear]="true"
         ></p-calendar>
         <small
           class="text-red-500"
@@ -150,15 +152,15 @@
           <p-chips
             formControlName="availableColors"
             separator=","
-            placeholder="Hint: green, black, yellow"
+            placeholder="green, black, yellow"
           ></p-chips>
         </div>
-        <small
+        <!-- <small
           class="text-red-500"
           *ngIf="(productFormControls.get('availableColors')?.invalid && productFormControls.get('availableColors')?.touched) && productFormControls.get('availableColors')?.errors?.['required']"
         >
           Provide available colors for the product
-        </small>
+        </small> -->
       </span>
     </div>
 
@@ -187,44 +189,43 @@
       <div
         class="col-12 flex flex-wrap justify-content-between align-items-start"
       >
-        <span class="flex flex-column gap-2 col-4">
+        <div class="flex flex-column col-6">
           <label htmlFor="main-image">Main image</label>
           <p-fileUpload
-            mode="basic"
-            name="file"
+            #mainProductImage 
+            mode="advanced"
+            name="mainImages"
             chooseLabel="Choose"
             accept="image/*"
-            (onSelect)="onImageSelect($event)"
-          ></p-fileUpload>
-        </span>
+            [customUpload]="true"
+            (uploadHandler)="onMainImageFileUpload($event)"
+          >
+          </p-fileUpload>
+        </div>
 
-        <div class="card flex flex-column justify-content-center col-8">
+        <div class="flex flex-column justify-content-center col-6">
           <label htmlFor="other-image">Other Produt Images</label>
           <p-fileUpload
+            #otherProductImages
             name="otherImages"
-            url="http://localhost:8080/uploads"
-            (onUpload)="onMultipleUpload($event)"
             [multiple]="true"
             accept="image/*"
+            [customUpload]="true"
+            (uploadHandler)="onMultipleFileUpload($event)"
           >
-            <ng-template pTemplate="content">
-              <ul *ngIf="uploadedFiles.length">
-                <li *ngFor="let file of uploadedFiles">
-                  {{ file.name }} - {{ file.size }} bytes
-                </li>
-              </ul>
-            </ng-template>
           </p-fileUpload>
         </div>
       </div>
     </div>
 
-    <div class="col-5 card flex justify-content-center">
+    <div class="col-5 flex justify-content-center">
       <p-button
         label="Submit"
         icon="pi pi-check"
         iconPos="right"
-        [disabled]="productForm.valid"
+        [disabled]="!productForm.valid"
+        size="large"
+        [ngStyle]="{ 'min-width': '100% !important' }"
         (onClick)="productFormSubmit()"
       ></p-button>
     </div>
