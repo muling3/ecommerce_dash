@@ -96,8 +96,9 @@
             </div>
 
             <div class="col-12 flex justify-content-center align-items-center">
-                <span class="col-10 md:col-6">
-                    <button pButton pRipple label="Create Product" icon="pi pi-bookmark" iconPos="right" [disabled]="productForm.valid" (click)="productFormSubmit()" styleClass="cursor-pointer"></button>
+                <span class="col-10 md:col-6 flex">
+                    <button pButton pRipple [label]="submitting ? 'Creating Product' : 'Create Product'" [icon]="submitting ? 'pi pi-spin pi-spinner' : 'pi pi-bookmark'" iconPos="right" [disabled]="!productForm.valid" (click)="productFormSubmit()" styleClass="cursor-pointer"></button>
+                    <p-progressSpinner *ngIf="submitting" styleClass="w-4rem h-4rem" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s"></p-progressSpinner>
                 </span>
             </div>
         </div>

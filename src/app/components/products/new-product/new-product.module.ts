@@ -13,6 +13,7 @@ import { InputTextareaModule } from "primeng/inputtextarea";
 import { InputTextModule } from "primeng/inputtext";
 import { FileUploadModule } from "primeng/fileupload";
 import { ToastModule } from "primeng/toast";
+import { ProgressSpinnerModule } from "primeng/progressspinner";
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import { ToastModule } from "primeng/toast";
     InputTextareaModule,
     InputTextModule,
     FileUploadModule,
-    ToastModule
+    ToastModule,
+    ProgressSpinnerModule,
   ],
   declarations: [NewProductComponent],
 })

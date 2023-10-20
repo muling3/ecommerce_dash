@@ -23,6 +23,8 @@ export class NewProductComponent {
   @ViewChild("mainProductImage") mainImageUpload!: FileUpload;
   @ViewChild("otherProductImages") otherProductImagesUpload!: FileUpload;
 
+  submitting: boolean = false;
+
   constructor(
     private brandService: CountryService,
     private messageService: MessageService,
@@ -114,6 +116,7 @@ export class NewProductComponent {
     // uploading images
     this.uploadAllImages().subscribe({
       next: (res: string[]) => {
+        this.submitting = true
         console.log("response", res);
         // save product
         let productData = this.productForm.value;
@@ -125,9 +128,11 @@ export class NewProductComponent {
 
         // save product images
         this.saveAllProductImages(productData.name, res.slice(1));
+        this.submitting = false;
       },
       error: (err: any) => {
-        console.log("error", err)
+        this.submitting = false;
+        console.log("error", err);
         this.messageService.add({
           severity: "error",
           summary: "Error Uploading Image",
@@ -152,8 +157,10 @@ export class NewProductComponent {
           summary: "Product Created Successfully!",
           detail: res.message,
         });
+
       },
       error: (err) => {
+        this.submitting = false
         console.log("err", err);
         this.messageService.add({
           severity: "error",
@@ -168,7 +175,7 @@ export class NewProductComponent {
     return this.productSvc.addProductImage(data).pipe(
       map((res) => res.data),
       catchError((err) => {
-        console.log("save prod image error", err)
+        console.log("save prod image error", err);
         throw err.error.message;
       })
     );
@@ -181,7 +188,7 @@ export class NewProductComponent {
     return this.imageUplSvc.uploadProductImage(data).pipe(
       map((res: any) => res.data),
       catchError((err: any) => {
-        console.log("upload image err", err)
+        console.log("upload image err", err);
         throw err.error.message;
       })
     );
@@ -222,6 +229,7 @@ export class NewProductComponent {
         });
       },
       error: (err: any) => {
+        this.submitting = false;
         console.log("err", err);
         this.messageService.add({
           severity: "error",
