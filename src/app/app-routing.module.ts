@@ -10,6 +10,7 @@ import { NotfoundComponent } from './components/notfound/notfound.component';
                 path: '', component: AppLayoutComponent,
                 children: [
                     { path: '', loadChildren: () => import('./components/dashboard/dashboard.module').then(m => m.DashboardModule) },
+                    { path: 'products', loadChildren: () => import('./components/products/products.module').then(m => m.ProductsModule) },
                     { path: 'uikit', loadChildren: () => import('./components/uikit/uikit.module').then(m => m.UIkitModule) },
                     { path: 'utilities', loadChildren: () => import('./components/utilities/utilities.module').then(m => m.UtilitiesModule) },
                     { path: 'documentation', loadChildren: () => import('./components/documentation/documentation.module').then(m => m.DocumentationModule) },

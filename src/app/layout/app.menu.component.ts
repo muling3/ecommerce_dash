@@ -30,12 +30,17 @@ export class AppMenuComponent implements OnInit {
               {
                 label: "Products List",
                 icon: "pi pi-fw pi-list",
-                routerLink: ["/"],
+                routerLink: ["/products"],
+              },
+              {
+                label: "Products Overview",
+                icon: "pi pi-fw pi-th-large",
+                routerLink: ["/products/overview"],
               },
               {
                 label: "Add Product",
                 icon: "pi pi-fw pi-plus",
-                routerLink: ["/"],
+                routerLink: ["/products/new"],
               },
             ],
           },
@@ -113,31 +118,6 @@ export class AppMenuComponent implements OnInit {
             label: "UI Components",
             items: [
               {
-                label: "Form Layout",
-                icon: "pi pi-fw pi-id-card",
-                routerLink: ["/uikit/formlayout"],
-              },
-              {
-                label: "Input",
-                icon: "pi pi-fw pi-check-square",
-                routerLink: ["/uikit/input"],
-              },
-              {
-                label: "Float Label",
-                icon: "pi pi-fw pi-bookmark",
-                routerLink: ["/uikit/floatlabel"],
-              },
-              {
-                label: "Invalid State",
-                icon: "pi pi-fw pi-exclamation-circle",
-                routerLink: ["/uikit/invalidstate"],
-              },
-              {
-                label: "Button",
-                icon: "pi pi-fw pi-box",
-                routerLink: ["/uikit/button"],
-              },
-              {
                 label: "Table",
                 icon: "pi pi-fw pi-table",
                 routerLink: ["/uikit/table"],
@@ -182,11 +162,6 @@ export class AppMenuComponent implements OnInit {
                 label: "Message",
                 icon: "pi pi-fw pi-comment",
                 routerLink: ["/uikit/message"],
-              },
-              {
-                label: "File",
-                icon: "pi pi-fw pi-file",
-                routerLink: ["/uikit/file"],
               },
               {
                 label: "Chart",
