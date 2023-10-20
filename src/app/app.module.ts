@@ -1,34 +1,30 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
-import { AppRoutingModule } from './app-routing.module';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { AppComponent } from './app.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { PrimengModule } from './primeng.module';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { AddProductComponent } from './components/add-product/add-product.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MessageService } from 'primeng/api';
-import { HttpClientModule } from '@angular/common/http';
+import { AppRoutingModule } from './app-routing.module';
+import { AppLayoutModule } from './layout/app.layout.module';
+import { NotfoundComponent } from './demo/components/notfound/notfound.component';
+import { ProductService } from './demo/service/product.service';
+import { CountryService } from './demo/service/country.service';
+import { CustomerService } from './demo/service/customer.service';
+import { EventService } from './demo/service/event.service';
+import { IconService } from './demo/service/icon.service';
+import { NodeService } from './demo/service/node.service';
+import { PhotoService } from './demo/service/photo.service';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    DashboardComponent,
-    SidebarComponent,
-    AddProductComponent,
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    PrimengModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-  ],
-  providers: [MessageService],
-  bootstrap: [AppComponent],
+    declarations: [
+        AppComponent, NotfoundComponent
+    ],
+    imports: [
+        AppRoutingModule,
+        AppLayoutModule
+    ],
+    providers: [
+        { provide: LocationStrategy, useClass: HashLocationStrategy },
+        CountryService, CustomerService, EventService, IconService, NodeService,
+        PhotoService, ProductService
+    ],
+    bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
