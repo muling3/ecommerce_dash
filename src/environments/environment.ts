@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   serverUrl: "http://localhost:8080",
+  authUrl: "/api/authenticate",
   productImagesUploadUrl: "/uploads/products",
   addProdImageUrl: "/api/products/addImage",
   createProductUrl: "/api/products/new",
