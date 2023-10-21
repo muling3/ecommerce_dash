@@ -128,11 +128,6 @@ export class AppMenuComponent implements OnInit {
                 routerLink: ["/uikit/list"],
               },
               {
-                label: "Tree",
-                icon: "pi pi-fw pi-share-alt",
-                routerLink: ["/uikit/tree"],
-              },
-              {
                 label: "Panel",
                 icon: "pi pi-fw pi-tablet",
                 routerLink: ["/uikit/panel"],
@@ -157,11 +152,6 @@ export class AppMenuComponent implements OnInit {
                   matrixParams: "ignored",
                   fragment: "ignored",
                 },
-              },
-              {
-                label: "Message",
-                icon: "pi pi-fw pi-comment",
-                routerLink: ["/uikit/message"],
               },
               {
                 label: "Chart",
