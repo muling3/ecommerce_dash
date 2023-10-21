@@ -50,6 +50,6 @@ export class ProductService {
   }
 
   addProductImage(data: any): Observable<any> {
-    return this.http.post(this.serverUrl + environment.createProductUrl, data);
+    return this.http.post(this.serverUrl + environment.addProdImageUrl, data);
   }
 }

@@ -24,11 +24,16 @@
                 </span>
             </div>
             <div class="field col-12 md:col-4">
-                <div class="p-inputgroup">
-                    <span class="p-inputgroup-addon">KES</span>
-                    <input type="text" inputmode="numeric" pInputText placeholder="Price" formControlName="price" />
-                    <span class="p-inputgroup-addon">.00</span>
-                </div>
+                <span class="p-float-label">
+                    <p-inputNumber formControlName="price" inputId="price" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5"> </p-inputNumber>
+                    <label for="price">Price</label>
+                </span>
+            </div>
+            <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                    <p-inputNumber formControlName="quantity" inputId="quantity"> </p-inputNumber>
+                    <label for="quantity">Quantity</label>
+                </span>
             </div>
             <div class="field col-12 md:col-4">
                 <span class="p-float-label">
@@ -54,12 +59,12 @@
                     <label for="batch">Batch Number</label>
                 </span>
             </div>
-            <div class="field col-12 md:col-4">
+            <!-- <div class="field col-12 md:col-4">
                 <span class="p-float-label">
                     <p-chips inputId="colors" formControlName="availableColors"></p-chips>
                     <label for="colors">Available Colors</label>
                 </span>
-            </div>
+            </div> -->
             <div class="field col-12 md:col-12">
                 <span class="p-float-label">
                     <textarea inputId="desc" rows="3" cols="30" formControlName="desc" pInputTextarea></textarea>

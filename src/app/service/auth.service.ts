@@ -15,7 +15,11 @@ import { CookieService } from "ngx-cookie-service";
   providedIn: "root",
 })
 export class AuthenticationService {
-  constructor(private router: Router, private http: HttpClient, private cookieSvc: CookieService) {}
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private cookieSvc: CookieService
+  ) {}
 
   private readonly serverUrl = environment.serverUrl;
 
@@ -39,5 +43,10 @@ export class AuthenticationService {
       this.serverUrl + environment.authUrl,
       data
     );
+  }
+
+  getAuthorizationToken(): string {
+    const user = this.cookieSvc.check("admin-token") ? JSON.parse(this.cookieSvc.get("admin-token")) : {token: "no auth token"};
+    return user.token;
   }
 }

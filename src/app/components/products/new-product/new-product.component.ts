@@ -93,7 +93,6 @@ export class NewProductComponent {
   }
 
   productFormSubmit(): void {
-    console.log("product form submit");
     //check form validity
     if (this.mainImageUpload._files.length < 1) {
       this.messageService.add({
@@ -116,7 +115,7 @@ export class NewProductComponent {
     // uploading images
     this.uploadAllImages().subscribe({
       next: (res: string[]) => {
-        this.submitting = true
+        this.submitting = true;
         console.log("response", res);
         // save product
         let productData = this.productForm.value;
@@ -124,10 +123,8 @@ export class NewProductComponent {
           ...productData,
           mainImage: res[0],
         };
-        this.saveProduct(productData);
 
-        // save product images
-        this.saveAllProductImages(productData.name, res.slice(1));
+        this.saveProduct(productData, res.slice(1));
         this.submitting = false;
       },
       error: (err: any) => {
@@ -136,16 +133,20 @@ export class NewProductComponent {
         this.messageService.add({
           severity: "error",
           summary: "Error Uploading Image",
-          detail: err,
+          detail: err.error.message ? err.error.message : err.message,
         });
       },
     });
   }
 
-  saveProduct(product: any): void {
+  saveProduct(product: any, otherImgUrls: string[]): void {
     const date = new Date(product.manufacturedDate);
     product = {
       ...product,
+      category: product.category.name,
+      availableColors: "black, gray",
+      quantity: parseInt(product.quantity),
+      price: parseFloat(product.price),
       manufacturedDate: `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`,
     };
 
@@ -158,14 +159,16 @@ export class NewProductComponent {
           detail: res.message,
         });
 
+        // save product images
+        this.saveAllProductImages(res.data[0].name, otherImgUrls);
       },
       error: (err) => {
-        this.submitting = false
+        this.submitting = false;
         console.log("err", err);
         this.messageService.add({
           severity: "error",
           summary: "Error Creating Product!",
-          detail: err.error.message,
+          detail: err.error.message ? err.error.message : err.message,
         });
       },
     });
@@ -173,7 +176,7 @@ export class NewProductComponent {
 
   saveProductImage(data: any): Observable<any> {
     return this.productSvc.addProductImage(data).pipe(
-      map((res) => res.data),
+      map((res) => res.data[0].url),
       catchError((err) => {
         console.log("save prod image error", err);
         throw err.error.message;
@@ -224,9 +227,12 @@ export class NewProductComponent {
         console.log("response product image add", res);
         this.messageService.add({
           severity: "success",
-          summary: "Product Created Successfully!",
-          detail: res.message,
+          summary: "Product Images Created Successfully!",
+          detail: "Added product images",
         });
+
+        // clear form
+        this.clearForm();
       },
       error: (err: any) => {
         this.submitting = false;
@@ -234,9 +240,15 @@ export class NewProductComponent {
         this.messageService.add({
           severity: "error",
           summary: "Error Creating Product Image!",
-          detail: err.error.message,
+          detail: err.error.message ? err.error.message : err.message,
         });
       },
     });
+  }
+
+  clearForm(): void {
+    this.productForm.reset();
+    this.mainImageUpload.clear();
+    this.otherProductImagesUpload.clear();
   }
 }
