@@ -1,95 +1,83 @@
-import { Component, ViewChild } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { MessageService } from "primeng/api";
-import { FileUpload, FileUploadHandlerEvent } from "primeng/fileupload";
-import { CountryService } from "src/app/service/country.service";
+import { Component } from "@angular/core";
+import { MessageService, SelectItem } from "primeng/api";
+import { DataView } from "primeng/dataview";
+import { Product } from "src/app/api/product";
+import { ProductService } from "src/app/service/product.service";
+import { DialogService, DynamicDialogRef } from "primeng/dynamicdialog";
+import { ProductDetailsComponent } from "../product-details/product-details";
 
 @Component({
   selector: "app-new-product",
   templateUrl: "./product-overview.component.html",
 })
 export class ProductOverviewComponent {
-  brands: any[] = [];
+  products: Product[] = [];
 
-  categories: any[];
+  sortOptions: SelectItem[] = [];
 
-  filteredBrands: any[] = [];
+  sortOrder: number = 0;
 
-  productForm!: FormGroup;
-
-  @ViewChild("mainProductImage") mainImageUpload!: FileUpload;
-  @ViewChild("otherProductImages") otherProductImagesUpload!: FileUpload;
+  sortField: string = "";
 
   constructor(
-    private brandService: CountryService,
-    private messageService: MessageService
-  ) {
-    this.categories = [
-      { name: "Electronics", code: "EN" },
-      { name: "Clothing", code: "CL" },
-      { name: "Shoes", code: "SH" },
-      { name: "Mobile Phone", code: "MP" },
-      { name: "Accessories", code: "ACC" },
+    private productService: ProductService,
+    private messageService: MessageService,
+    public dialogService: DialogService
+  ) {}
+
+  ref: DynamicDialogRef | undefined;
+
+  ngOnInit() {
+    this.productService.getAllProducts().subscribe({
+      next: (res: any) => {
+        this.products = res.data;
+      },
+      error: (err: any) => {
+        console.log("err", err);
+        this.messageService.add({
+          severity: "error",
+          summary: "Error Fetching Products!",
+          detail: err.error.message ? err.error.message : err.message,
+        });
+      },
+    });
+
+    this.sortOptions = [
+      { label: "Price High to Low", value: "!price" },
+      { label: "Price Low to High", value: "price" },
     ];
   }
 
-  ngOnInit() {
-    this.productForm = new FormGroup({
-      name: new FormControl("", [Validators.required]),
-      brand: new FormControl("", [Validators.required]),
-      category: new FormControl("", [Validators.required]),
-      price: new FormControl("", [Validators.required]),
-      serial: new FormControl("", [Validators.required]),
-      batch: new FormControl("", [Validators.required]),
-      quantity: new FormControl("", [Validators.required]),
-      manufacturer: new FormControl("", [Validators.required]),
-      manufacturedDate: new FormControl("", [Validators.required]),
-      availableColors: new FormControl(""),
-      desc: new FormControl("", [Validators.required]),
-      mainImage: new FormControl(""),
-    });
+  onSortChange(event: any) {
+    const value = event.value;
 
-    this.brandService.getBrands().subscribe((res) => {
-      this.brands = res.data;
-    });
-  }
-
-  searchBrands(event: any) {
-    const filtered: any[] = [];
-    const query = event.query;
-    // tslint:disable-next-line:prefer-for-of
-    for (let i = 0; i < this.brands.length; i++) {
-      const brand = this.brands[i];
-      if (brand.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-        filtered.push(brand);
-      }
+    if (value.indexOf("!") === 0) {
+      this.sortOrder = -1;
+      this.sortField = value.substring(1, value.length);
+    } else {
+      this.sortOrder = 1;
+      this.sortField = value;
     }
-
-    this.filteredBrands = filtered;
   }
 
-  onMultipleFileUpload(event: FileUploadHandlerEvent) {
-    this.messageService.add({
-      severity: "info",
-      detail: "Product Images upload",
-      summary: "All product images will be uploaded on submit",
+  onFilter(dv: DataView, event: Event) {
+    dv.filter((event.target as HTMLInputElement).value);
+  }
+
+  editProduct(product: any): void {
+    this.ref = this.dialogService.open(ProductDetailsComponent, {
+      header: "Product Details",
+      width: "70%",
+      contentStyle: { overflow: "auto" },
+      baseZIndex: 10000,
+      maximizable: true,
+      data: product,
     });
   }
 
-  onMainImageFileUpload(event: FileUploadHandlerEvent) {
-    this.messageService.add({
-      severity: "info",
-      detail: "Product Images upload",
-      summary: "All product images will be uploaded on submit",
-    });
-  }
-
-  productFormSubmit(): void {
-    console.log("product form submit");
-    this.messageService.add({
-      severity: "info",
-      detail: "Product Images upload",
-      summary: "All product images will be uploaded on submit",
-    });
+  ngOnDestroy() {
+    if (this.ref) {
+      this.ref.close();
+    }
   }
 }

@@ -25,6 +25,13 @@ import { RouterModule } from "@angular/router";
             (m) => m.NewProductModule
           ),
       },
+      {
+        path: "edit/:name",
+        loadChildren: () =>
+          import("./product-details/product-details.module").then(
+            (m) => m.ProductDetailsModule
+          ),
+      },
       { path: "**", redirectTo: "/notfound" },
     ]),
   ],

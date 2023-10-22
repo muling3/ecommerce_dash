@@ -4,5 +4,6 @@ import { ProductsRoutingModule } from "./products-routing.module";
 
 @NgModule({
   imports: [CommonModule, ProductsRoutingModule],
+  declarations: []
 })
 export class ProductsModule {}

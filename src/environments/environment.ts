@@ -9,6 +9,8 @@ export const environment = {
   productImagesUploadUrl: "/uploads/products",
   addProdImageUrl: "/api/products/addImage",
   createProductUrl: "/api/products/new",
+  updateProductUrl: "/api/products/update",
+  getProductsUrl: "/api/products"
 };
 
 /*

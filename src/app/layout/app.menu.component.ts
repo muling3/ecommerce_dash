@@ -121,7 +121,7 @@ export class AppMenuComponent implements OnInit {
                 label: "My Profile",
                 icon: "pi pi-fw pi-user",
                 routerLink: ["/profile"],
-              }
+              },
             ],
           },
           {
@@ -131,11 +131,6 @@ export class AppMenuComponent implements OnInit {
                 label: "Table",
                 icon: "pi pi-fw pi-table",
                 routerLink: ["/uikit/table"],
-              },
-              {
-                label: "List",
-                icon: "pi pi-fw pi-list",
-                routerLink: ["/uikit/list"],
               },
               {
                 label: "Panel",

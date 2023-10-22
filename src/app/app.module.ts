@@ -8,6 +8,7 @@ import { MessageService } from "primeng/api";
 import { CookieService } from "ngx-cookie-service";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AuthInterceptor } from "./interceptors/auth.interceptor";
+import { DialogService } from "primeng/dynamicdialog";
 
 @NgModule({
   declarations: [AppComponent, NotfoundComponent],
@@ -17,6 +18,7 @@ import { AuthInterceptor } from "./interceptors/auth.interceptor";
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     MessageService,
     CookieService,
+    DialogService
   ],
   bootstrap: [AppComponent],
 })

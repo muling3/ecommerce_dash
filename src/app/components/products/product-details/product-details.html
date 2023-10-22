@@ -1,0 +1,110 @@
+<div class="card">
+    <h5>Edit Product</h5>
+    <p>Edit Your Product - Enhance Your Shelves with Something Fresh and Exciting! 🔥🛒</p>
+    <form [formGroup]="productDetailsForm">
+        <div class="grid p-fluid mt-3">
+            <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                    <input type="text" id="name" pInputText formControlName="name">
+                    <label for="name">Product name</label>
+                </span>
+            </div>
+            <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                    <p-autoComplete inputId="brand" formControlName="brand" [suggestions]="filteredBrands"
+                    (completeMethod)="searchBrands($event)" field="name"></p-autoComplete>
+                    <label for="brand">Product Brand</label>
+                </span>
+            </div>
+            <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                    <p-dropdown inputId="category" [autoDisplayFirst]="false" [options]="categories" formControlName="category" optionLabel="name"></p-dropdown>
+                    <label for="category">Category</label>
+                </span>
+            </div>
+            <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                    <p-inputNumber formControlName="price" inputId="price" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5"> </p-inputNumber>
+                    <label for="price">Price</label>
+                </span>
+            </div>
+            <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                    <p-inputNumber formControlName="quantity" inputId="quantity"> </p-inputNumber>
+                    <label for="quantity">Quantity</label>
+                </span>
+            </div>
+            <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                    <input type="text" id="manufacturer" pInputText formControlName="manufacturer">
+                    <label for="manufacturer">Manufacturer</label>
+                </span>
+            </div>
+            <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                    <p-calendar inputId="manufacturedDate" formControlName="manufacturedDate"></p-calendar>
+                    <label for="manufacturedDate">Manufactured Date</label>
+                </span>
+            </div>
+            <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                    <input type="text" id="serial" pInputText formControlName="serial">
+                    <label for="serial">Serial Number</label>
+                </span>
+            </div>
+            <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                    <input type="text" id="batch" pInputText formControlName="batch">
+                    <label for="batch">Batch Number</label>
+                </span>
+            </div>
+            <!-- <div class="field col-12 md:col-4">
+                <span class="p-float-label">
+                    <p-chips inputId="colors" formControlName="availableColors"></p-chips>
+                    <label for="colors">Available Colors</label>
+                </span>
+            </div> -->
+            <div class="field col-12 md:col-12">
+                <span class="p-float-label">
+                    <textarea inputId="desc" rows="3" cols="30" formControlName="desc" pInputTextarea></textarea>
+                    <label for="desc">Description</label>
+                </span>
+            </div>
+            <div class="col-12">
+                <h5>Product Images</h5>
+            </div>
+            <div class="flex flex-column col-12 md:col-6">
+                <label htmlFor="main-image">Main image</label>
+                <p-fileUpload
+                    #mainProductImage 
+                    mode="advanced"
+                    name="mainImages"
+                    chooseLabel="Choose"
+                    accept="image/*"
+                    [customUpload]="true"
+                    (uploadHandler)="onMainImageFileUpload($event)"
+                >
+                </p-fileUpload>
+            </div>
+            <div class="flex flex-column justify-content-center col-12 md:col-6">
+                <label htmlFor="other-image">Other Produt Images</label>
+                <p-fileUpload
+                    #otherProductImages
+                    name="otherImages"
+                    [multiple]="true"
+                    accept="image/*"
+                    [customUpload]="true"
+                    (uploadHandler)="onMultipleFileUpload($event)"
+                >
+                </p-fileUpload>
+            </div>
+
+            <div class="col-12 flex justify-content-center align-items-center">
+                <span class="col-10 md:col-6 flex">
+                    <button pButton pRipple [label]="submitting ? 'Updating Product' : 'Update Product'" [icon]="submitting ? 'pi pi-spin pi-spinner' : 'pi pi-bookmark'" iconPos="right" [disabled]="!productDetailsForm.valid" (click)="productFormSubmit()" styleClass="cursor-pointer"></button>
+                    <p-progressSpinner *ngIf="submitting" styleClass="w-4rem h-4rem" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s"></p-progressSpinner>
+                </span>
+            </div>
+        </div>
+    </form>
+</div>

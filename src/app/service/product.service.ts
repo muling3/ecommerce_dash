@@ -26,6 +26,10 @@ export class ProductService {
       .then((data) => data);
   }
 
+  getAllProducts(): Observable<any> {
+    return this.http.get(this.serverUrl + environment.getProductsUrl);
+  }
+
   getProductsMixed() {
     return this.http
       .get<any>("assets/demo/data/products-mixed.json")
@@ -46,6 +50,14 @@ export class ProductService {
     return this.http.post(
       this.serverUrl + environment.createProductUrl,
       product
+    );
+  }
+
+  updateProduct(name: string, product: any): Observable<any> {
+    return this.http.patch(
+      this.serverUrl + environment.updateProductUrl,
+      product,
+      { params: { name } }
     );
   }
 
