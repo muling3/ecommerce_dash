@@ -54,6 +54,7 @@ export class NewProductComponent {
       manufacturedDate: new FormControl("", [Validators.required]),
       availableColors: new FormControl(""),
       desc: new FormControl("", [Validators.required]),
+      rating: new FormControl("", [Validators.required]),
       mainImage: new FormControl(""),
     });
 

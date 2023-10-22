@@ -100,6 +100,13 @@
                 </p-fileUpload>
             </div>
 
+            <div class="field col-12 md:col-4">
+                <span class="flex flex-column">
+                    <label for="rating" class="my-2">Product Rating</label>
+                    <p-rating formControlName="rating" [cancel]="false" styleClass="mb-2"></p-rating>
+                </span>
+            </div>
+
             <div class="col-12 flex justify-content-center align-items-center">
                 <span class="col-10 md:col-6 flex">
                     <button pButton pRipple [label]="submitting ? 'Creating Product' : 'Create Product'" [icon]="submitting ? 'pi pi-spin pi-spinner' : 'pi pi-bookmark'" iconPos="right" [disabled]="!productForm.valid" (click)="productFormSubmit()" styleClass="cursor-pointer"></button>

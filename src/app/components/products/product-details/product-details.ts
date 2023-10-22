@@ -79,6 +79,7 @@ export class ProductDetailsComponent {
       ]),
       availableColors: new FormControl(this.product.availableColors),
       desc: new FormControl(this.product.desc, [Validators.required]),
+      rating: new FormControl(this.product.rating ? this.product.rating : 1, [Validators.required]),
       mainImage: new FormControl(this.product.mainImage),
     });
 
@@ -172,20 +173,21 @@ export class ProductDetailsComponent {
     product = {
       ...product,
       brand: product.brand.name ? product.brand.name : product.brand,
-      category: product.category.name,
+      category: product.category.name ? product.category.name : product.category,
       availableColors: "black, gray",
       quantity: parseInt(product.quantity),
       price: parseFloat(product.price),
       manufacturedDate: `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`,
     };
-
+    
+    console.log("product", product)
     // create the product
     this.productSvc.updateProduct(this.product.name, product).subscribe({
       next: (res: any) => {
         this.messageService.add({
           severity: "success",
           summary: "Product Updated Successfully!",
-          detail: res.message,
+          detail: res.message ? res.message : res,
         });
 
         // save product images
@@ -194,7 +196,7 @@ export class ProductDetailsComponent {
         // close dialog
         this.ref.close()
       },
-      error: (err) => {
+      error: (err: any) => {
         this.submitting = false;
         console.log("err", err);
         this.messageService.add({

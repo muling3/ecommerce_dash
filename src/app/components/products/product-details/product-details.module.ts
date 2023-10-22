@@ -14,6 +14,7 @@ import { ToastModule } from "primeng/toast";
 import { ProgressSpinnerModule } from "primeng/progressspinner";
 import { ProductDetailsComponent } from "./product-details";
 import { ButtonModule } from "primeng/button";
+import { RatingModule } from "primeng/rating";
 
 @NgModule({
   imports: [
@@ -31,6 +32,7 @@ import { ButtonModule } from "primeng/button";
     ToastModule,
     ProgressSpinnerModule,
     ButtonModule,
+    RatingModule
   ],
   declarations: [ProductDetailsComponent],
 })

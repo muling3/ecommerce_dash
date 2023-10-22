@@ -73,6 +73,21 @@ export class ProductOverviewComponent {
       maximizable: true,
       data: product,
     });
+
+    this.ref.onClose.subscribe(d => {
+      this.productService.getAllProducts().subscribe({
+      next: (res: any) => {
+        this.products = res.data;
+      },
+      error: (err: any) => {
+        console.log("err", err);
+        this.messageService.add({
+          severity: "error",
+          summary: "Error Fetching Products!",
+          detail: err.error.message ? err.error.message : err.message,
+        });
+      }})
+    })
   }
 
   ngOnDestroy() {
