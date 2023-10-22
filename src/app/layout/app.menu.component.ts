@@ -115,6 +115,16 @@ export class AppMenuComponent implements OnInit {
             ],
           },
           {
+            label: "Settings",
+            items: [
+              {
+                label: "My Profile",
+                icon: "pi pi-fw pi-user",
+                routerLink: ["/profile"],
+              }
+            ],
+          },
+          {
             label: "UI Components",
             items: [
               {

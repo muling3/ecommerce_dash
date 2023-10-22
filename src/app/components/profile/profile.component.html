@@ -1,0 +1,124 @@
+<div class="grid">
+  <div class="col-12">
+    <div class="card p-fluid grid">
+      <div class="col-12">
+        <h5 class="font-bold">My Profile</h5>
+      </div>
+      <div class="grid">
+        <div class="w-11rem h-11rem border-1 p-2 border-circle cursor-pointer flex justify-content-center align-items-center">
+			<img src="assets/images/me.svg" alt="profile image" class="mb-3 w-full h-full border-circle">   
+		</div>
+        <div class="info">
+          <div class="field col">
+            <h6 class="font-bold">Full Name</h6>
+            <span>{{ profileFormValue["firstName"]}}  {{ profileFormValue["lastName"]}}</span>
+          </div>
+          <div class="field col">
+            <h6 class="font-bold">Email Address</h6>
+            <span>{{ profileFormValue["email"]}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card p-fluid grid">
+      <form [formGroup]="profileForm" class="col grid">
+		<div class="col-12 flex justify-content-between align-items-center">
+			<h5 class="font-bold">Personal Information</h5>
+			<div class="border-1 border-black-alpha-20 border-round-3xl p-3 cursor-pointer" (click)="editFormClick()">
+				<i class="pi pi-pencil"></i>
+				<span class="ml-3">{{ editDetails ? 'Edit' : 'Discard' }} </span>
+			</div>
+		</div>
+		<div class="field col-12 md:col-4">
+			<span *ngIf="editDetails">
+				<h6 class="font-bold">First Name</h6>
+            	<span>{{ profileFormValue["firstName"] }}</span>
+			</span>
+			<span *ngIf="!editDetails">
+				<label htmlFor="firstName">First Name</label>
+				<input pInputText id="firstName" type="text" formControlName="firstName" [disabled]="editDetails"/>
+			</span>
+		</div>
+		<div class="field col-12 md:col-4">
+			<span *ngIf="editDetails">
+				<h6 class="font-bold">Middle Name</h6>
+            	<span>{{ profileFormValue["middleName"] == "" ? "No Middle Name" : profileFormValue["middleName"] }}</span>
+			</span>
+			<span *ngIf="!editDetails">
+				<label htmlFor="middleName">Middle Name</label>
+				<input pInputText id="middleName" type="text" formControlName="middleName" [disabled]="editDetails"/>
+			</span>
+		</div>
+		<div class="field col-12 md:col-4">
+			<span *ngIf="editDetails">
+				<h6 class="font-bold">Last Name</h6>
+            	<span>{{ profileFormValue["lastName"] }}</span>
+			</span>
+			<span *ngIf="!editDetails">
+				<label htmlFor="lastName">Last Name</label>
+				<input pInputText id="lastName" type="text" formControlName="lastName" [disabled]="editDetails"/>
+			</span>
+		</div>
+		<div class="field col-12 md:col-4">
+			<span *ngIf="editDetails">
+				<h6 class="font-bold">User Name</h6>
+            	<span>{{ profileFormValue["userName"] }}</span>
+			</span>
+			<span *ngIf="!editDetails">
+				<label htmlFor="userName">User Name</label>
+				<input pInputText id="userName" type="text" formControlName="userName" [disabled]="editDetails"/>
+			</span>
+		</div>
+		<div class="field col-12 md:col-4">
+			<span *ngIf="editDetails">
+				<h6 class="font-bold">Email</h6>
+            	<span>{{ profileFormValue["email"] }}</span>
+			</span>
+			<span *ngIf="!editDetails">
+				<label htmlFor="email">Email</label>
+				<input pInputText id="email" type="text" formControlName="email" [disabled]="editDetails"/>
+			</span>
+		</div>
+		<div class="field col-12 md:col-4">
+			<span *ngIf="editDetails">
+				<h6 class="font-bold">Phone Number</h6>
+            	<span>{{ profileFormValue["phoneNumber"] }}</span>
+			</span>
+			<span *ngIf="!editDetails">
+				<label htmlFor="phoneNumber">Phone Number</label>
+				<input pInputText id="phoneNumber" type="text" formControlName="phoneNumber" [disabled]="editDetails"/>
+			</span>
+		</div>
+		<div class="field col-12 md:col-4">
+			<span *ngIf="editDetails">
+				<h6 class="font-bold">Gender</h6>
+            	<span>{{ profileFormValue["gender"].name }}</span>
+			</span>
+			<span *ngIf="!editDetails">
+				<label for="gender">Gender</label>
+            	<p-dropdown inputId="gender" [autoDisplayFirst]="false" [options]="genderOpts" formControlName="gender" optionLabel="name"></p-dropdown>
+			</span>
+		</div>
+		<div *ngIf="!editDetails" class="flex flex-column col-12 md:col-4">
+			<label htmlFor="main-image">Main image</label>
+			<p-fileUpload
+				#mainProductImage 
+				mode="advanced"
+				name="mainImages"
+				chooseLabel="Choose"
+				accept="image/*"
+				[customUpload]="true"
+				(uploadHandler)="onMainImageFileUpload($event)"
+			>
+			</p-fileUpload>
+		</div>
+		<div  *ngIf="!editDetails" class="col-12 flex justify-content-center align-items-center">
+			<span class="col-10 md:col-6 flex">
+				<button pButton pRipple [label]="submitting ? 'Updating Account' : 'Update Account'" [icon]="submitting ? 'pi pi-spin pi-spinner' : 'pi pi-bookmark'" iconPos="right" (click)="profileFormSubmit()" [disabled]="editDetails" styleClass="cursor-pointer"></button>
+				<p-progressSpinner *ngIf="submitting" styleClass="w-4rem h-4rem" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s"></p-progressSpinner>
+			</span>
+		</div>
+	  </form>
+    </div>
+  </div>
+</div>
