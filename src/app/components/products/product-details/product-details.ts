@@ -39,7 +39,7 @@ export class ProductDetailsComponent {
     if (dialogConfig.data) {
       this.product = dialogConfig.data;
       const date = new Date(this.product.manufacturedDate);
-      this.product.manufacturedDate = `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`
+      this.product.manufacturedDate = `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`;
     }
 
     this.categories = [
@@ -58,9 +58,12 @@ export class ProductDetailsComponent {
       (cat) => cat.name === this.product.category
     )[0];
 
-    if(!productCat){
-      productCat = { name: this.product.category,code: this.product.category };
-      this.categories.push({ name: this.product.category, code: this.product.category })
+    if (!productCat) {
+      productCat = { name: this.product.category, code: this.product.category };
+      this.categories.push({
+        name: this.product.category,
+        code: this.product.category,
+      });
     }
 
     this.productDetailsForm = new FormGroup({
@@ -79,7 +82,9 @@ export class ProductDetailsComponent {
       ]),
       availableColors: new FormControl(this.product.availableColors),
       desc: new FormControl(this.product.desc, [Validators.required]),
-      rating: new FormControl(this.product.rating ? this.product.rating : 1, [Validators.required]),
+      rating: new FormControl(this.product.rating ? this.product.rating : 1, [
+        Validators.required,
+      ]),
       mainImage: new FormControl(this.product.mainImage),
     });
 
@@ -88,10 +93,13 @@ export class ProductDetailsComponent {
       let productBrand = this.brands.filter(
         (b) => b.name === this.product.brand
       )[0];
-      
-      if(!productBrand){
+
+      if (!productBrand) {
         productBrand = { name: this.product.brand, code: this.product.brand };
-        this.brands.push({ name: this.product.brand, code: this.product.brand })
+        this.brands.push({
+          name: this.product.brand,
+          code: this.product.brand,
+        });
       }
 
       this.productDetailsForm.patchValue({
@@ -140,7 +148,10 @@ export class ProductDetailsComponent {
         let productData = this.productDetailsForm.value;
         productData = {
           ...productData,
-          mainImage: this.mainImageUpload._files.length > 0 ? res[0] : this.product.mainImage,
+          mainImage:
+            this.mainImageUpload._files.length > 0
+              ? res[0]
+              : this.product.mainImage,
         };
 
         this.updateProduct(
@@ -173,14 +184,16 @@ export class ProductDetailsComponent {
     product = {
       ...product,
       brand: product.brand.name ? product.brand.name : product.brand,
-      category: product.category.name ? product.category.name : product.category,
+      category: product.category.name
+        ? product.category.name
+        : product.category,
       availableColors: "black, gray",
       quantity: parseInt(product.quantity),
       price: parseFloat(product.price),
       manufacturedDate: `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`,
     };
-    
-    console.log("product", product)
+
+    console.log("product", product);
     // create the product
     this.productSvc.updateProduct(this.product.name, product).subscribe({
       next: (res: any) => {
@@ -194,7 +207,7 @@ export class ProductDetailsComponent {
         this.saveAllProductImages(res.data[0].name, otherImgUrls);
 
         // close dialog
-        this.ref.close()
+        this.ref.close();
       },
       error: (err: any) => {
         this.submitting = false;
@@ -233,30 +246,36 @@ export class ProductDetailsComponent {
 
   uploadAllImages(): Observable<string[]> {
     // upload all product images using rxjs forkJoin
-    let uplImgObservables: Observable<string>[] = this.mainImageUpload._files.length > 0 ? [
-      this.uploadImage(this.mainImageUpload._files[0]),
-    ] : [];
+    let uplImgObservables: Observable<string>[] =
+      this.mainImageUpload._files.length > 0
+        ? [this.uploadImage(this.mainImageUpload._files[0])]
+        : [];
 
     // adding other images
-    this.otherProductImagesUpload._files.length > 0 ? this.otherProductImagesUpload._files.forEach((f) => {
-      uplImgObservables.push(this.uploadImage(f));
-    }) : null;
+    this.otherProductImagesUpload._files.length > 0
+      ? this.otherProductImagesUpload._files.forEach((f) => {
+          uplImgObservables.push(this.uploadImage(f));
+        })
+      : null;
 
-    if(uplImgObservables.length < 1) return of([])
-    
+    if (uplImgObservables.length < 1) return of([]);
+
     return forkJoin(uplImgObservables);
   }
 
   saveAllProductImages(productName: string, imageUrls: string[]): void {
     // add all product images using rxjs forkJoin
-    const saveProdImages: Observable<string>[] = imageUrls.length > 0 ? imageUrls.map((img, i) =>
-      this.saveProductImage({
-        productName,
-        title: productName + "-image-" + i,
-        color: "unknown",
-        url: img,
-      })
-    ): [];
+    const saveProdImages: Observable<string>[] =
+      imageUrls.length > 0
+        ? imageUrls.map((img, i) =>
+            this.saveProductImage({
+              productName,
+              title: productName + "-image-" + i,
+              color: "unknown",
+              url: img,
+            })
+          )
+        : [];
 
     forkJoin(saveProdImages).subscribe({
       next: (res: any) => {
@@ -268,7 +287,7 @@ export class ProductDetailsComponent {
         });
 
         // close modal
-        this.ref.close()
+        this.ref.close();
       },
       error: (err: any) => {
         this.submitting = false;
