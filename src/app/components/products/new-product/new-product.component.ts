@@ -56,6 +56,7 @@ export class NewProductComponent {
       desc: new FormControl("", [Validators.required]),
       rating: new FormControl("", [Validators.required]),
       mainImage: new FormControl(""),
+      sizes: new FormControl("", [Validators.required]),
     });
 
     this.brandService.getBrands().subscribe((res) => {
@@ -146,6 +147,7 @@ export class NewProductComponent {
       ...product,
       category: product.category.name,
       availableColors: "black, gray",
+      sizes: product.sizes.join(),
       quantity: parseInt(product.quantity),
       price: parseFloat(product.price),
       manufacturedDate: `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`,
