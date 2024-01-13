@@ -205,11 +205,6 @@ export class AppMenuComponent implements OnInit {
             routerLink: ["/pages/crud"],
           },
           {
-            label: "Timeline",
-            icon: "pi pi-fw pi-calendar",
-            routerLink: ["/pages/timeline"],
-          },
-          {
             label: "Not Found",
             icon: "pi pi-fw pi-exclamation-circle",
             routerLink: ["/notfound"],
