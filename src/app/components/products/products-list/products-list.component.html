@@ -1,1 +1,162 @@
-<div class="grid">Product list works</div>
+<p-toast></p-toast>
+<div class="grid">
+  <div class="col-12">
+    <div class="card">
+      <h5>All Products</h5>
+      <p-table
+        #dt1
+        [value]="products"
+        dataKey="id"
+        [rows]="10"
+        [loading]="loading"
+        [rowHover]="true"
+        styleClass="p-datatable-gridlines"
+        [paginator]="true"
+        [globalFilterFields]="[
+          'name',
+          'manufacturer',
+          'createdBy',
+          'category',
+        ]"
+        responsiveLayout="scroll"
+      >
+        <ng-template pTemplate="caption">
+          <div class="flex justify-content-between flex-column sm:flex-row">
+            <button
+              pButton
+              label="Clear"
+              class="p-button-outlined mb-2"
+              icon="pi pi-filter-slash"
+              (click)="clear(dt1)"
+            ></button>
+            <span class="p-input-icon-left mb-2">
+              <i class="pi pi-search"></i>
+              <input
+                pInputText
+                type="text"
+                #filter
+                (input)="onGlobalFilter(dt1, $event)"
+                placeholder="Search Keyword"
+                class="w-full"
+              />
+            </span>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="min-width: 12rem">
+              <div class="flex justify-content-between align-items-center">
+                Name
+                <p-columnFilter
+                  type="text"
+                  field="name"
+                  display="menu"
+                  placeholder="Search by name"
+                ></p-columnFilter>
+              </div>
+            </th>
+            <th style="min-width: 12rem">
+              <div class="flex justify-content-between align-items-center">
+                Category
+                <p-columnFilter
+                  type="text"
+                  field="category"
+                  display="menu"
+                  placeholder="Search by category"
+                ></p-columnFilter>
+              </div>
+            </th>
+            <th style="min-width: 12rem">
+              <div class="flex justify-content-between align-items-center">
+                Manufacturer
+                <p-columnFilter
+                  type="text"
+                  field="manufacturer"
+                  display="menu"
+                  placeholder="Search by Manufacturer"
+                ></p-columnFilter>
+              </div>
+            </th>
+            <th style="min-width: 10rem" pSortableColumn="price">
+              <div class="flex justify-content-between align-items-center">
+                Price
+                <p-sortIcon field="price"></p-sortIcon>
+              </div>
+            </th>
+            <th style="min-width: 10rem" pSortableColumn="quantity">
+              <div class="flex justify-content-between align-items-center">
+                Quantity
+                <p-sortIcon field="quantity"></p-sortIcon>
+              </div>
+            </th>
+            <th style="min-width: 10rem" pSortableColumn="rating">
+              <div class="flex justify-content-between align-items-center">
+                Rating
+                <p-sortIcon field="rating"></p-sortIcon>
+              </div>
+            </th>
+            <th style="min-width: 10rem" pSortableColumn="createdAt">
+              <div class="flex justify-content-between align-items-center">
+                Date Created
+                <p-sortIcon field="createdAt"></p-sortIcon>
+              </div>
+            </th>
+            <th style="min-width: 10rem">
+              <div class="flex justify-content-between align-items-center">
+                Created By
+                <p-columnFilter
+                  type="text"
+                  field="createdBy"
+                  display="menu"
+                  placeholder="Search by CreatedBy"
+                ></p-columnFilter>
+              </div>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+          <tr>
+            <td>
+              {{ product.name }}
+            </td>
+            <td>
+              {{ product.category }}
+            </td>
+            <td>
+              {{ product.manufacturer }}
+            </td>
+            <td>
+              {{ product.price | currency : "USD" : "symbol" }}
+            </td>
+            <td>
+              {{ product.quantity }}
+            </td>
+            <td>
+              <p-rating
+                [ngModel]="product.rating"
+                [readonly]="true"
+                [cancel]="false"
+              ></p-rating>
+            </td>
+            <td>
+              {{ product.createdAt | date : "MM/dd/yyyy" }}
+            </td>
+            <td>
+              {{ product.createdBy }}
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="8">No products found.</td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="loadingbody">
+          <tr>
+            <td colspan="8">Loading products data. Please wait.</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>
